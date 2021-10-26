@@ -15,8 +15,8 @@ jobs:
       with:
         program: test/run.do
         version: ${{ secrets.STATA_VERSION }}
-        serial-number: ${{ secrets.STATA_SERIAL_NUMBER }}
+        serial-number: ${{ secrets.STATA_SERIALNUMBER }}
         code: ${{ secrets.STATA_CODE }}
-        authorization: ${{ secrets.STATA_AUTHORIZATION }}
+        authorization: ${{ secrets.STATA_AUTH }}
         first-name: ${{ secrets.STATA_FIRST_NAME }}
         last-name: ${{ secrets.STATA_LAST_NAME }}
