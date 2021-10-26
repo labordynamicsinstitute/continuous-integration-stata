@@ -31,15 +31,19 @@ ls -la
 
 # print log result
 
+cat run.log
 
 if [[ -f ${basefile}.log ]]
 then
+   echo "===== ${basefile}.log ====="
    cat ${basefile}.log
 
    # Fail CI if Stata ran with an error
    LOG_CODE=$(tail -1 ${basefile}.log | tr -d '[:cntrl:]')
+   echo "===== LOG CODE: $LOG_CODE ====="
    [[ ${LOG_CODE:0:1} == "r" ]] && EXIT_CODE=1 
 else
+   echo "${basefile}.log not found"
    EXIT_CODE=2
 fi
 exit $EXIT_CODE
