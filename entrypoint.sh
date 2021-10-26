@@ -29,7 +29,7 @@ stata-mp -b do $basefile
 # print log result
 
 
-if [[ -f ${basefile.log} ]]
+if [[ -f ${basefile}.log ]]
 then
    cat ${basefile}.log
 
