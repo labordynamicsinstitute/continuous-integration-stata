@@ -5,7 +5,7 @@ cwd=$(pwd)
 # initialize license
 cd /usr/local/stata
 export PATH=/usr/local/stata:$PATH
-./stinit << EOF
+sudo ./stinit << EOF
 y
 y
 $3
