@@ -27,11 +27,16 @@ basefile=${file%*.do}
 stata-mp -b do $basefile
 
 # print log result
-cat ${basefile}.log
 
-# Fail CI if Stata ran with an error
-EXIT_CODE=$(tail -1 ${basefile}.log | tr -d '[:cntrl:]')
 
-if [[ ${EXIT_CODE:0:1} == "r" ]]; then
-    exit 1
+if [[ -f ${basefile.log} ]]
+then
+   cat ${basefile}.log
+
+   # Fail CI if Stata ran with an error
+   LOG_CODE=$(tail -1 ${basefile}.log | tr -d '[:cntrl:]')
+   [[ ${LOG_CODE:0:1} == "r" ]] && EXIT_CODE=1 
+else
+   EXIT_CODE=2
 fi
+exit $EXIT_CODE
