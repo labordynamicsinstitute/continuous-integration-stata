@@ -25,8 +25,9 @@ basefile=${file%*.do}
 
 # run do-file
 echo "Running $(pwd)/$file"
-ls -la $(pwd)
+ls -la 
 stata-mp -b do $basefile 
+ls -la 
 
 # print log result
 
