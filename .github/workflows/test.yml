@@ -11,36 +11,12 @@ jobs:
     
     - name: Stata Action
       id: ci-stata
-      uses: ledwindra/continuous-integration-stata@v1
+      uses: larsvilhuber/continuous-integration-stata@v1
       with:
-        url: ${{ secrets.URL }}
-        version: ${{ secrets.VERSION }}
-        serial-number: ${{ secrets.SERIAL_NUMBER }}
-        code: ${{ secrets.CODE }}
-        authorization: ${{ secrets.AUTHORIZATION }}
-        first-name: ${{ secrets.FIRST_NAME }}
-        last-name: ${{ secrets.LAST_NAME }}
-        stata-edition: ${{ secrets.STATA_EDITION }}
-        
-    - name: Install LaTeX and compile tex file to pdf
-      run: |
-        # https://gist.github.com/rain1024/98dd5e2c6c8c28f9ea9d
-        sudo apt-get install texlive-latex-base
-        pdflatex regression-table.tex
-        
-    - name: Make a git commit
-      env:
-        EMAIL: ${{ secrets.EMAIL }}
-        USERNAME: ${{ secrets.USERNAME }}
-        
-      run: |
-        git status
-        git config --global user.email ${EMAIL}
-        git config --global user.name ${USERNAME}
-        mkdir -p latex
-        mv regression-table* latex/
-        git add data/ latex/
-        git commit --allow-empty -m "Updated data and LaTeX table"
-        git pull --rebase origin main
-        git push origin main
-
+        program: test/run.do
+        version: ${{ secrets.STATA_VERSION }}
+        serial-number: ${{ secrets.STATA_SERIAL_NUMBER }}
+        code: ${{ secrets.STATA_CODE }}
+        authorization: ${{ secrets.STATA_AUTHORIZATION }}
+        first-name: ${{ secrets.STATA_FIRST_NAME }}
+        last-name: ${{ secrets.STATA_LAST_NAME }}
