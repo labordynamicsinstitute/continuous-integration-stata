@@ -2,40 +2,36 @@ name: 'Stata Action'
 description: 'Run Stata do-file using GitHub Actions'
 author: 'Lukman Edwindra'
 inputs:
-  url:
+  program:
     required: true
-    description: 'The link to your Stata installer'
+    description: 'Your Stata codefile'
+    default: 'main.do'
   version:
     required: true
     description: 'Your Stata version'
   serial-number:
     required: true
-    description: 'Your Stata serial number (this will be encrypter so that nobody can see it)'
+    description: 'Your Stata serial number (this will be encrypted so that nobody can see it)'
   code:
     required: true
-    description: 'Your Stata code license (this will be encrypter so that nobody can see it)'
+    description: 'Your Stata code license (this will be encrypted so that nobody can see it)'
   authorization:
     required: true
-    description: 'Your Stata authorization license (this will be encrypter so that nobody can see it)'
+    description: 'Your Stata authorization license (this will be encrypted so that nobody can see it)'
   first-name:
     required: true
     description: 'Your Stata first-name display'
   last-name:
     required: true
     description: 'Your Stata last-name display'
-  stata-edition:
-    required: true
-    description: 'Your Stata edition. Choices: stata, stata-se, stata-mp)'
-    default: 'stata'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.url }}
+    - ${{ inputs.program }}
     - ${{ inputs.version }}
     - ${{ inputs.serial-number }}
     - ${{ inputs.code }}
     - ${{ inputs.authorization }}
     - ${{ inputs.first-name }}
     - ${{ inputs.last-name }}
-    - ${{ inputs.stata-edition }}
