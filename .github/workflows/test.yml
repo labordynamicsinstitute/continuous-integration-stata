@@ -23,3 +23,10 @@ jobs:
         authorization: ${{ secrets.STATA_AUTH }}
         name: ${{ secrets.STATA_NAME }}
         institution: ${{ secrets.STATA_INSTITUTION }}
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3.7.0-8
+      with:
+          publish_dir: .
+          user_name: 'Github Action Bot'
+          publish_branch: testing 
+          keep_files: true
