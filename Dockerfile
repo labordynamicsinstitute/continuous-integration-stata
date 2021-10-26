@@ -7,7 +7,9 @@ COPY entrypoint.sh /entrypoint.sh
 RUN ["chmod", "+x", "/entrypoint.sh"]
 
 # add the statauser to sudo so can update license
-RUN echo "statauser  ALL=(ALL) NOPASSWD:ALL" |  tee /etc/sudoers.d/statauser
+RUN mkdir -p /etc/sudoers.d \
+    && echo "statauser  ALL=(ALL) NOPASSWD:ALL" | \
+       tee /etc/sudoers.d/statauser
 
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/entrypoint.sh"]
