@@ -24,7 +24,8 @@ file=$1
 basefile=${file%*.do}
 
 # run do-file
-stata-mp -b do $basefile
+echo "Running $(pwd)/$file"
+stata-mp -b do $basefile 
 
 # print log result
 
