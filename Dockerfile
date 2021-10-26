@@ -15,5 +15,5 @@ RUN apt-get update \
 
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/entrypoint.sh"]
-USER statauser
+#USER statauser
 
