@@ -11,7 +11,7 @@ jobs:
     
     - name: Stata Action
       id: ci-stata
-      uses: larsvilhuber/continuous-integration-stata@v1
+      uses: labordynamicsinstitute/continuous-integration-stata@v0.1
       with:
         program: test/run.do
         version: ${{ secrets.STATA_VERSION }}
