@@ -18,12 +18,12 @@ inputs:
   authorization:
     required: true
     description: 'Your Stata authorization license (this will be encrypted so that nobody can see it)'
-  first-name:
+  name:
     required: true
-    description: 'Your Stata first-name display'
-  last-name:
+    description: 'Your name to be displayed in Stata license'
+  institution:
     required: true
-    description: 'Your Stata last-name display'
+    description: 'Your institution to be displayed in Stata license'
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -33,5 +33,5 @@ runs:
     - ${{ inputs.serial-number }}
     - ${{ inputs.code }}
     - ${{ inputs.authorization }}
-    - ${{ inputs.first-name }}
-    - ${{ inputs.last-name }}
+    - ${{ inputs.name }}
+    - ${{ inputs.institution }}
