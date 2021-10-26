@@ -3,8 +3,8 @@
 cwd=$(pwd)
 
 # initialize license
-cd /usr/local/stata$2
-export PATH=/usr/local/stata$2:$PATH
+cd /usr/local/stata
+export PATH=/usr/local/stata:$PATH
 ./stinit << EOF
 y
 y
