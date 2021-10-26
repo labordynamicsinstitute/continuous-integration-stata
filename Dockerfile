@@ -7,7 +7,9 @@ COPY entrypoint.sh /entrypoint.sh
 RUN ["chmod", "+x", "/entrypoint.sh"]
 
 # add the statauser to sudo so can update license
-RUN mkdir -p /etc/sudoers.d \
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+         sudo \
     && echo "statauser  ALL=(ALL) NOPASSWD:ALL" | \
        tee /etc/sudoers.d/statauser
 
