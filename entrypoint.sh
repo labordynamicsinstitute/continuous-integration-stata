@@ -21,29 +21,29 @@ EOF
 # back to the default working directory
 cd $cwd
 file=$1
-basefile=${file%*.do}
+basefile=$(basename $file)
+workdir=$(dirname $file)
+logfile=${file%*.do}.log
 
 # run do-file
-echo "Running $(pwd)/$file"
-ls -la 
-stata-mp -b do $basefile 
-ls -la 
+echo "==============================================="
+echo "Running $basefile in working directory $workdir"
+
+(cd $workdir && stata-mp -b do $basefile)
 
 # print log result
 
-cat run.log
-
-if [[ -f ${basefile}.log ]]
+if [[ -f $logfile ]]
 then
-   echo "===== ${basefile}.log ====="
-   cat ${basefile}.log
+   echo "===== $logfile ====="
+   cat $logfile
 
    # Fail CI if Stata ran with an error
-   LOG_CODE=$(tail -1 ${basefile}.log | tr -d '[:cntrl:]')
+   LOG_CODE=$(tail -1 $logfile | tr -d '[:cntrl:]')
    echo "===== LOG CODE: $LOG_CODE ====="
    [[ ${LOG_CODE:0:1} == "r" ]] && EXIT_CODE=1 
 else
-   echo "${basefile}.log not found"
+   echo "$logfile not found"
    EXIT_CODE=2
 fi
 exit $EXIT_CODE
