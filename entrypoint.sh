@@ -24,6 +24,7 @@ file=$1
 basefile=$(basename $file)
 workdir=$(dirname $file)
 logfile=${file%*.do}.log
+EXIT_CODE=0
 
 # run do-file
 echo "==============================================="
@@ -46,4 +47,5 @@ else
    echo "$logfile not found"
    EXIT_CODE=2
 fi
+echo "==== Exiting with code $EXIT_CODE"
 exit $EXIT_CODE
