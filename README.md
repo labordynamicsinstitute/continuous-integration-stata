@@ -2,43 +2,22 @@
 
 # About
 
-Hello world! Are you a researcher working primarily using Stata? Have you ever:
-- Gotten a headache working with cross-platform (e.g. Windows vs Mac OS)?
-- Tried to reproduce a code published by other researchers but it doesn't work out on your machine?
-- Overwritten your codes and data (after years of sweat and blood!) using another platform (e.g. Dropbox, Onedrive)?
-- All of the above?
+This Github Action allows a user to leverage cloud computing to do continuous integration with Stata code. An example follows. A user will need a valid Stata license, access to the [dataeditors/stata17](https://hub.docker.com/r/dataeditors/stata17), and a self-contained (reproducible) Stata replication package. The Stata code has access to the internet during processing, but we suggest to pre-emptively install all Stata dependencies into a local ado directory.
 
-Imagine that you can avoid all of that. And that's what this repository is aiming for!
+# Original creator
 
-# Potential use cases
-
-In addition to solving the problems above, you can benefit from this repository in some of the following ways:
-- Producing regression tables on LaTeX without having to install the distribution on your local machine—which can be pain in the neck
-- Running unit tests if you're building a Stata package. This is something that I find lacking compared to other open source statistical packages (Julia/R/Python)
-
-# Workflows
+A version of this Github Action was first created by [ledwindra/continuous-integration-stata](https://github.com/ledwindra/continuous-integration-stata). Kudos to him. This version was primarily adapted to work with a pre-configured Stata Docker image, and to use encoded license information (also based on prior work by [ledwindra](https://github.com/ledwindra)).
 
 
-Since Stata has user-written packages that users may have not installed on their machine, it sometimes can be a cause of an error. Hence, it may be a good practice to run the following code in the beginning of your `main.do` file:
+# Limitations
 
-```stata
-clear
+- This simple Github Action does not include the ability to run other code (Julia/R/Python/LaTeX). However, it would be easy to expand. See [ledwindra/continuous-integration-stata](https://github.com/ledwindra/continuous-integration-stata) for examples.
+- This action is currently hard-coded to use Stata 17, but can easily be adapted to use other Stata versions.
 
-// list packages that we may want to install
-local packages = "unique reghdfe ritest estout ivreghdfe ftools ivreg2" // just for example
+# Sample Workflow
 
-foreach i of local packages {
-	capture which `i'
-	if _rc != 0 {
-		display _rc
-		ssc install `i', replace
-	}
-}
-```
+This Github Action uses itself to validate functionality. See [.github/workflows/test.yml](.github/workflows/test.yml) for an example.
 
-# Does it really work to your paper?
-
-Yes! Check out this [paper](https://github.com/adviksh/when-guidance-changes) from Charlie Rafkin, Advik Shreekumar, and Pierre-Luc Vautrey, where I clone their repository and run the corresponding Stata do-files (not the R code since it's about Stata workflow) in my [main.do](https://github.com/ledwindra/continuous-integration-stata/blob/main/main.do) (**see lines 20-50**)
 
 # What you need
 
@@ -49,20 +28,43 @@ Stata do-file using GitHub Actions you need:
 - Code
 - Authorization
 
-# How to run?
-You can download the source code from [here](https://github.com/labordynamicsinstitute/continuous-integration-stata/releases). Make sure to choose the latest version available. Then, you can create your own repository on GitHub. Before going any further, you need to add GitHub Secrets on `Settings -> Secrets` tab inside your repository. Note that only **you** can see these environment variables unless you make them public (but don't!). Though I make this package, I **can not** see them either. What you need are the following:
+# Configuration
 
-- ACCESS_TOKEN: you need a token that authorizes GitHub to make any git commit on behalf your account. Read [here](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) for details
-- AUTHORIZATION: given by Stata
-- CODE: given by Stata
-- EMAIL: your GitHub email for git configuration (`git config --global user.email`). See [here](https://www.git-scm.com/book/en/v2/Customizing-Git-Git-Configuration)
-- FIRST_NAME: your Stata first name
-- LAST_NAME: your Stata last name
-- SERIALNUMBER: given by Stata
-- PROGRAM: the relative path to the program to run (e.g., `test/run.do`)
-- VERSION: your Stata version (I use 15)
+To run the Stata part, you need to call this action. Verify the latest [release/](release/).
 
-That's it! Then you can go to `Actions` tab and just click `Run workflow` and voila! You've just run a Stata do-file using GitHub's owned machine. 😀
+```
+    - name: Stata Action
+      id: ci-stata
+      uses: labordynamicsinstitute/continuous-integration-stata@v0.1
+```
+
+Parameters to be set:
+
+- `program`: program to be run. Can be in a subdirectory. Only one program per call, but you can add multiple sections to the YML file.
+- `version`: parameter kept for the Stata version, but presently non-functional (hard-coded to `17`)
+- `serial-number`: The Stata serial number from your license
+- `code`: The license code from your Stata license
+- `authorization`: The authorization code from your Stata license
+- `name`: The first line of the Stata license field, typically your name
+- `institution`: The second line of the Stata license field, typically your institution
+
+Since these are private parameters, they should be encoded as [Github secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets), see the example.
+
+
+Example:
+
+```
+      with:
+        program: test/run.do
+        version: ${{ secrets.STATA_VERSION }}
+        serial-number: ${{ secrets.STATA_SERIALNUMBER }}
+        code: ${{ secrets.STATA_CODE }}
+        authorization: ${{ secrets.STATA_AUTH }}
+        name: ${{ secrets.STATA_NAME }}
+        institution: ${{ secrets.STATA_INSTITUTION }}
+```
+
+The sample implementation also commits results back to the repository, and you may be interested in doing so as well. We use the great [https://github.com/peaceiris/actions-gh-pages/](https://github.com/peaceiris/actions-gh-pages/) to simplify the configuration, you can check out all required configuration parameters on their page. 
 
 # Considerations
 
