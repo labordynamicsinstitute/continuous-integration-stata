@@ -24,6 +24,11 @@ inputs:
   institution:
     required: true
     description: 'Your institution to be displayed in Stata license'
+  changedir:
+    required: false
+    default: 'yes'
+    description: 'Should the working directory be changed to the file location being run (cd dir ; stata prog.do) or not (stata dir/prog.do). Affects environment for Stata'
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -35,3 +40,4 @@ runs:
     - ${{ inputs.authorization }}
     - ${{ inputs.name }}
     - ${{ inputs.institution }}
+    - ${{ inputs.changedir }}

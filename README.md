@@ -47,8 +47,10 @@ Parameters to be set:
 - `authorization`: The authorization code from your Stata license
 - `name`: The first line of the Stata license field, typically your name
 - `institution`: The second line of the Stata license field, typically your institution
+- `changedir`: (optional) Should the working directory be changed to the file location being run (cd dir ; stata prog.do) or not (stata dir/prog.do). Affects environment for Stata
 
-Since these are private parameters, they should be encoded as [Github secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets), by either setting the secrets through the Github web interface, or from the command line:
+
+Since most of these are private parameters, they should be encoded as [Github secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets), by either setting the secrets through the Github web interface, or from the command line:
 
 ```{bash}
 gh secret set STATA_SERIALNUMBER -b"123456789"                                      -o myorganization 
@@ -70,6 +72,7 @@ Example of usage in Github Workflow (full example [here](https://github.com/labo
         authorization: ${{ secrets.STATA_AUTH }}
         name: ${{ secrets.STATA_NAME }}
         institution: ${{ secrets.STATA_INSTITUTION }}
+        changedir: yes
 ```
 
 The sample implementation also commits results back to the repository, and you may be interested in doing so as well. We use the great [https://github.com/peaceiris/actions-gh-pages/](https://github.com/peaceiris/actions-gh-pages/) to simplify the configuration, you can check out all required configuration parameters on their page. 

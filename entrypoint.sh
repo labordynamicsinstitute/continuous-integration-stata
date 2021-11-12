@@ -2,6 +2,28 @@
 
 cwd=$(pwd)
 
+# Validate inputs
+if [[ $# -le 7 ]]; then
+    echo "Not enough  parameters" >&2
+    exit 2
+fi
+if [[ $# -ge 9 ]]; then
+    echo "Too many parameters - ignoring extras" >&2
+fi
+
+[[ -z $8 ]] && changedir=yes || changedir=$8
+case $changedir in
+   yes|Yes|YES|TRUE)
+   changedir=yes
+   ;;
+   no|NO|No|FALSE)
+   changedir=no
+   ;;
+   *)
+   echo "Changedir must be 'yes' or 'no'" >&2
+   exit 2
+esac
+
 # initialize license
 cd /usr/local/stata
 export PATH=/usr/local/stata:$PATH
@@ -23,15 +45,26 @@ cd $cwd
 file=$1
 basefile=$(basename $file)
 workdir=$(dirname $file)
-logfile=${file%*.do}.log
 EXIT_CODE=0
 
-# run do-file
-echo "==============================================="
-echo "Running $basefile in working directory $workdir"
-
-(cd $workdir && stata-mp -b do $basefile)
-
+if [[ "$changedir" == "yes" ]]
+then
+    logfile=${file%*.do}.log
+    # run do-file
+    echo "==============================================="
+    echo "Running $basefile in working directory $workdir"
+    
+    (cd $workdir && stata-mp -b do $basefile)
+fi
+if [[ "$changedir" == "no" ]]
+then
+    logfile=${basefile%*.do}.log
+    # run do-file
+    echo "==============================================="
+    echo "Running $file from $cwd"
+    
+    stata-mp -b do $file
+fi
 # print log result
 
 if [[ -f $logfile ]]
