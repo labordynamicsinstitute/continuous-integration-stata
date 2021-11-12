@@ -48,10 +48,18 @@ Parameters to be set:
 - `name`: The first line of the Stata license field, typically your name
 - `institution`: The second line of the Stata license field, typically your institution
 
-Since these are private parameters, they should be encoded as [Github secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets), see the example.
+Since these are private parameters, they should be encoded as [Github secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets), by either setting the secrets through the Github web interface, or from the command line:
+
+```{bash}
+gh secret set STATA_SERIALNUMBER -b"123456789"                                      -o myorganization 
+gh secret set STATA_CODE         -b'Lore mips umdo lors itam etco nsec tetu radi p' -o myorganization 
+gh secret set STATA_AUTH         -b'isci'                                           -o myorganization 
+gh secret set STATA_NAME         -b"Your Name"                                      -o myorganization
+gh secret set STATA_INSTITUTION  -b"Your Institution"                               -o myorganization
 
 
-Example:
+
+Example of usage in Github Workflow (full example [here](https://github.com/labordynamicsinstitute/continuous-integration-stata/blob/main/.github/workflows/test.yml))
 
 ```
       with:
