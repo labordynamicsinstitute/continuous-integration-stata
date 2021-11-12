@@ -53,12 +53,22 @@ Parameters to be set:
 Since most of these are private parameters, they should be encoded as [Github secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets), by either setting the secrets through the Github web interface, or from the command line:
 
 ```{bash}
-gh secret set STATA_SERIALNUMBER -b"123456789"                                      -o myorganization 
+gh secret set STATA_SERIALNUMBER -b123456789                                        -o myorganization 
 gh secret set STATA_CODE         -b'Lore mips umdo lors itam etco nsec tetu radi p' -o myorganization 
-gh secret set STATA_AUTH         -b'isci'                                           -o myorganization 
+gh secret set STATA_AUTH         -bisci                                             -o myorganization 
 gh secret set STATA_NAME         -b"Your Name"                                      -o myorganization
 gh secret set STATA_INSTITUTION  -b"Your Institution"                               -o myorganization
+```
 
+You may need to set the Github secret permissions to be available to specific repos or to the entire organization (the above syntax works for "private" repositories):
+
+```
+  Set organization level secret visible to entire organization
+  $ gh secret set MYSECRET -bval --org=anOrg --visibility=all
+  
+  Set organization level secret visible only to certain repositories
+  $ gh secret set MYSECRET -bval --org=anOrg --repos="repo1,repo2,repo3"
+```
 
 
 Example of usage in Github Workflow (full example [here](https://github.com/labordynamicsinstitute/continuous-integration-stata/blob/main/.github/workflows/test.yml))
