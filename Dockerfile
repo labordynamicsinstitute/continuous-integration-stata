@@ -1,5 +1,5 @@
 # Container image that runs your code
-FROM dataeditors/stata17:2021-12-16
+FROM dataeditors/stata17:2022-01-17
 
 USER root
 # Copies your code file from your action repository to the filesystem path `/` of the container
