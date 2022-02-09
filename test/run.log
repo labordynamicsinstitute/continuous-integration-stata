@@ -27,13 +27,13 @@ Notes:
 (contacting http://www.stata.com)
 
 Update status
-    Last check for updates:  12 Nov 2021
-    New update available:    none         (as of 12 Nov 2021)
+    Last check for updates:  09 Feb 2022
+    New update available:    17 Jan 2022
     Current update level:    05 Oct 2021
 
 Possible actions
 
-    Do nothing; all files are up to date.
+    Updates are available. Type -update all- to install.
 
 . exit
 
